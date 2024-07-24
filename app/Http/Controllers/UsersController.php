@@ -497,7 +497,7 @@ class UsersController extends Controller
 
 			'zip' => $validate['edit_zip'],
 
-			'total_holidays' => $validate['edit_total_holidays'],
+			// 'total_holidays' => $validate['edit_total_holidays'],
 
 			];
 

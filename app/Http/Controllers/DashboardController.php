@@ -51,48 +51,58 @@ class DashboardController extends Controller
     public function index()
 
     {
-
-
-
         // Get the authenticated user
 
         $user = auth()->user();
         $userId = $user->id;
   
-        // Getting data for showing the count of leave and spent 
+
         $currentYear = now()->year;
-        $total_leave_count = LeaveType::join('user_leaves', 'leave_types.id', '=', 'user_leaves.type')
-        ->where('user_leaves.user_id', $userId)
-        ->whereYear('user_leaves.created_at', $currentYear)
+
+        // Fetch all leave types
+        $leaveTypes = LeaveType::all();
+        
+        // Fetch user leaves for the current year
+        $total_leave_data = LeaveType::join('user_leaves', function($join) use ($userId, $currentYear) {
+            $join->on('leave_types.id', '=', 'user_leaves.type')
+                ->where('user_leaves.user_id', '=', $userId)
+                ->whereYear('user_leaves.created_at', $currentYear);
+        })
         ->select('leave_types.leave_count', 'leave_types.id as leave_type_id', 'leave_types.leave_type', 'user_leaves.leave_day_count')
         ->get();
-
-
-       // Use Laravel collection to group by 'leave_type_id'
-        $grouped = $total_leave_count->groupBy('leave_type_id');
-
+        
+        // Use Laravel collection to group by 'leave_type_id'
+        $grouped = $total_leave_data->groupBy('leave_type_id');
+        
         // Initialize an array to store the final result
         $segregatedArrays = [];
-
-        // Iterate through each group
-        foreach ($grouped as $leaveTypeId => $items) {
-            // Sum up the leave_day_count for each group
-            $totalLeaveDayCount = $items->sum('leave_day_count');
-            
+        
+        // Iterate through each leave type
+        foreach ($leaveTypes as $leaveType) {
+            // Initialize variables
+            $totalLeaveDayCount = 0;
+            $pendingLeaves = 0;
+        
+            // Check if there are user leaves for this leave type
+            if ($grouped->has($leaveType->id)) {
+                // Sum up the leave_day_count for this leave type
+                $totalLeaveDayCount = $grouped[$leaveType->id]->sum('leave_day_count');
+            }
+        
+            // Calculate pending leaves
+            if ($leaveType->leave_count !== null) {
+                $pendingLeaves = $leaveType->leave_count - $totalLeaveDayCount;
+            }
+        
             // Create the array structure as desired
             $segregatedArrays[] = [
-                'leave_count' => $items->first()->leave_count, // Assuming leave_count is the same for all items in the group
-                'leave_type_id' => $leaveTypeId,
-                'leave_type' => $items->first()->leave_type, // Assuming leave_type is the same for all items in the group
+                'leave_count' => $leaveType->leave_count ?? 0, // Set default to 0 if leave_count is null
+                'leave_type_id' => $leaveType->id,
+                'leave_type' => $leaveType->leave_type,
                 'leave_day_count' => $totalLeaveDayCount,
+                'pending_leaves' => $pendingLeaves >= 0 ? $pendingLeaves : 0, // Ensure pending leaves is not negative
             ];
-        }
-
-        // Output or use $segregatedArrays as needed
-        // echo "<pre>";
-        // print_r($segregatedArrays);
-        // echo "</pre>";
-        // dd($grouped);
+        }        
 
         $joiningDate = $user->joining_date;
 
@@ -374,7 +384,7 @@ class DashboardController extends Controller
 
             'winners',
             
-            'total_leave_count'
+            'segregatedArrays'
 
         ));
 

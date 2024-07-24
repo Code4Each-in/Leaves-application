@@ -275,7 +275,7 @@
 
 
 
-                                    <i style="color:#4154f1;" onClick="addHolidays('{{ $data->id }}')" href="javascript:void(0)" class="fa fa-plus-circle fa-fw pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Holiday Count"></i>
+                                    <!-- <i style="color:#4154f1;" onClick="addHolidays('{{ $data->id }}')" href="javascript:void(0)" class="fa fa-plus-circle fa-fw pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Add Holiday Count"></i> -->
                             </div>
 
                                 </td>
@@ -1104,7 +1104,7 @@
                         </div>
 
                     </div>
-
+<!-- 
                     <div class="row mb-4">
 
                         <label for="edit_zip" class="col-sm-3 col-form-label ">Total Holidays</label>
@@ -1115,7 +1115,7 @@
 
                         </div>
 
-                    </div>
+                    </div> -->
 
 
 

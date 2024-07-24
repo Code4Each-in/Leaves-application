@@ -14,9 +14,9 @@
 
         <div class="card-body">
 
-            <button class="btn btn-primary mt-3 mb-4" onClick="openHolidayModel()" href="javascript:void(0)">Add
+            <!-- <button class="btn btn-primary mt-3 mb-4" onClick="openHolidayModel()" href="javascript:void(0)">Add
 
-                Holiday</button>
+                Holiday</button> -->
 
 
 
@@ -26,7 +26,7 @@
 
                     <div class="col-md-6 filtersContainer d-flex p-0">
 
-                        <div style="margin-right:20px;">
+                        <!-- <div style="margin-right:20px;">
 
                             
 
@@ -36,7 +36,7 @@
 
                                 <label for="all_holiday">All</label>
 
-                        </div>
+                        </div> -->
 
                         
 

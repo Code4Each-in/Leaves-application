@@ -539,7 +539,8 @@ Route::middleware(['role_permission'])->group(function () {
 		Route::get('/holidays/{id}', [HolidaysController::class, 'holidays']);
 
 		//leavereport
-		Route::get('/leaves/report/{id}', [UserLeaveReportController::class, 'leaveReport'])->name('leave.report');
+		Route::get('/leaves/report/{id}/{year?}', [UserLeaveReportController::class, 'leaveReport'])->name('leave.report');
+		Route::get('/filter-leaves-by-year', [UserLeaveReportController::class, 'filterLeavesByYear'])->name('filter_leaves_by_year');
 
 
 		Route::post('/add_user_holidays', [UserLeaveReportController::class, 'add_user_holidays'])->name('add_user_holidays.index');

@@ -208,11 +208,11 @@ use App\Models\Votes;
 
             @if(auth()->user()->role->name != 'Super Admin')
 
-            <div class="col-xxl-4 col-md-6">
+            <!-- <div class="col-xxl-4 col-md-6">
 
                 <div class="card info-card sales-card">
 
-                    <div class="filter">
+                    <div class="filter"> -->
 
                         <!-- <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
 
@@ -232,7 +232,7 @@ use App\Models\Votes;
 
                             <li><a class="dropdown-item" href="#">This Year</a></li> -->
 
-                        </ul>
+                        <!-- </ul>
 
                     </div>
 
@@ -244,11 +244,11 @@ use App\Models\Votes;
 
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 
-                                <i class="bi bi-calendar-week"></i>
+                                <i class="bi bi-calendar-week"></i> -->
 
                                 <!-- <i class="fas fa-calendar-times"></i> -->
 
-                            </div>
+                            <!-- </div>
 
                             <div class="ps-3">
 
@@ -314,13 +314,13 @@ use App\Models\Votes;
 
                                         @endif
 
-                                </h6>
+                                </h6> -->
 
                                 <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span
 
                                     class="text-muted small pt-2 ps-1">increase</span> -->
 
-                            </div>
+                            <!-- </div>
 
                         </div>
 
@@ -330,28 +330,28 @@ use App\Models\Votes;
 
                 </div>
 
-            </div><!-- End Sales Card -->
+            </div>End Sales Card -->
 
     <!-- Start Of showing balance of leaves -->
 
+        <!-- @foreach ($segregatedArrays as $leave)
         <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
                 <div class="card-body dashboard-my-leaves">
-                    <h5 class="card-title">Sick Leaves</h5>
-                        <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-calendar-week"></i>
-                            </div>
-                            <div class="ps-3">
-                               
-                                <h6>   
-                                     
-                                </h6>
-                            </div>
+                    <h5 class="card-title">{{ $leave['leave_type'] }}</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-calendar-week"></i>
                         </div>
+                        <div class="ps-3">
+                            <h6>{{ $leave['leave_day_count'] }} / {{ $leave['leave_count'] }}</h6>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    @endforeach -->
+
 
         <!-- End Of showing balance of leaves -->
         @endif
@@ -402,15 +402,15 @@ use App\Models\Votes;
 
     </div>
 
-    <div class="col-lg-4 dashboard" style="margin-top: 20px ">
+    <!-- <div class="col-lg-4 dashboard" style="margin-top: 20px "> -->
 
         <!-- Recent Activity -->
 
 
-
+<!-- 
         <div class="card">
 
-            <div class="filter">
+            <div class="filter"> -->
 
                 <!-- <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a> -->
 
@@ -432,7 +432,7 @@ use App\Models\Votes;
 
             </ul> -->
 
-            </div>
+            <!-- </div>
 
             @if(count($userBirthdate)!=0)
 
@@ -516,10 +516,41 @@ use App\Models\Votes;
 
     </div>
 
+</div> -->
+
+<!-- Showing leave type record -->
+@if(auth()->user()->role->name != 'Super Admin')
+
+<div class="row">
+    <div class="col-md-8 dashboard">
+        <div class="card recent-sales overflow-auto">
+            <div class="card-body">
+                <h5 class="card-title">Leave Record</h5>
+                    <table class="table table-borderless" id="leave_data">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Total Leaves</th>
+                                <th scope="col">Leaves Occupied</th>
+                                <th scope="col">Pending Leaves</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($segregatedArrays as $item)
+                        <tr>
+                            <td>{{ $item['leave_type'] }}</td>
+                            <td>{{ $item['leave_count'] }}</td>
+                            <td>{{ $item['leave_day_count'] }}</td>
+                            <td>{{ $item['pending_leaves'] }}</td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
+@endif
 <!-- Employee Of The Month Section -->
 
 @include('votes.index', ['winners' => $winners])
@@ -858,7 +889,7 @@ use App\Models\Votes;
 
         @endif
 
-        <div class="card upcoming-holidays">
+        <!-- <div class="card upcoming-holidays"> -->
 
             <!-- <div class="filter">
 
@@ -886,7 +917,7 @@ use App\Models\Votes;
 
 
 
-            <div class="card-body pb-0">
+            <!-- <div class="card-body pb-0">
 
                 <h5 class="card-title"> Upcoming Holidays</h5>
 
@@ -924,11 +955,12 @@ use App\Models\Votes;
 
                     </div>
 
-                    @endforeach
+                    @endforeach -->
 
-                </div><!-- End sidebar recent posts-->
+                <!-- </div> -->
+                <!-- End sidebar recent posts-->
 
-                @else
+                <!-- @else
 
                 <div class="alert" role="alert">
 
@@ -940,7 +972,7 @@ use App\Models\Votes;
 
             </div>
 
-        </div>
+        </div> -->
 
         {{-- For Missing attendance --}}
 

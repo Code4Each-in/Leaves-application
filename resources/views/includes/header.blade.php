@@ -493,8 +493,8 @@
             </li> -->
 
 
-
-            <!-- <li class="nav-item">
+            @if(auth()->user()->role->name !== 'Super Admin')
+            <li class="nav-item">
 
                 <a class="nav-link {{ request()->is('holidays') ? '' : 'collapsed' }}" href="{{ route('holidays.index') }}">
 
@@ -504,7 +504,8 @@
 
                 </a>
 
-            </li> -->
+            </li>
+            @endif
 
             @if (auth()->user()->role->name == 'HR Manager' || auth()->user()->role->name == 'Super Admin')
 

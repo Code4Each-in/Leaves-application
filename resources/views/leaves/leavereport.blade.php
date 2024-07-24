@@ -1,12 +1,43 @@
 @extends('layout')
-@section('title', 'Employee Leave Report')
+@section('title', 'Employee Leave Report - ' . (!empty($userLeaves[0]) ? $userLeaves[0]->first_name : ''))
 @section('subtitle', 'Employee Leave Report')
 @section('content')
 
+
 <div class="row">
+    <div class="col-md-12 dashboard">
+        <div class="card recent-sales overflow-auto">
+            <div class="card-body">
+                <h5 class="card-title">Leave Type Record</h5>
+                    <table class="table table-borderless" id="leave_data">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Total Leaves</th>
+                                <th scope="col">Leaves Occupied</th>
+                                <th scope="col">Pending Leaves</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($segregatedArrays as $item)
+                        <tr>
+                            <td>{{ $item['leave_type'] }}</td>
+                            <td>{{ $item['leave_count'] }}</td>
+                            <td>{{ $item['leave_day_count'] }}</td>
+                            <td>{{ $item['pending_leaves'] }}</td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
     <div class="col-lg-8 dashboard" style="margin-top: 20px !important;">
         <div class="row">
-            <!-- Total Leave Card -->
+            Total Leave Card
             <div class="col-xxl-4 col-md-6">
                 <div class="card info-card sales-card">
                     <div class="filter">
@@ -25,9 +56,9 @@
                     </div>
                 </div>
             </div>
-            <!-- End Total Leave Card -->
+            End Total Leave Card
 
-            <!-- Leave Spent Card -->
+            Leave Spent Card
             <div class="col-xxl-4 col-md-6">
                 <div class="card info-card revenue-card">
                     <div class="filter">
@@ -47,9 +78,9 @@
                     </div>
                 </div>
             </div>
-            <!---End Leave Spent Card--->
+            -End Leave Spent Card-
 
-            <!-- Total Pending Leave Card -->
+            Total Pending Leave Card
             <div class="col-xxl-4 col-md-6">
                 <div class="card info-card sales-card">
                     <div class="filter">
@@ -68,13 +99,14 @@
                     </div>
                 </div>
             </div>
-            <!-- End Total Pending Leave Card -->
+            End Total Pending Leave Card
     </div>
-</div>
+</div> -->
 
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
+        <h5 class="card-title">Leave Record</h5>
             <div class="box-header with-border" id="filter-box">
                 <br>
                 <div class="box-body table-responsive" style="margin-bottom: 5%">
@@ -91,6 +123,7 @@
                                use App\Http\Controllers\DashboardController;
                             ?>
                         <tbody>
+                   
                             @forelse($userLeaves as $data)
                             <tr>
                                 <td>{{date("d-M-Y", strtotime($data->from));}}</td>
@@ -107,7 +140,37 @@
                                     }
                                 ?>
                                 <td>{{ $leave_type }}</td>
-                                <td> ----
+                                <td>
+                                    
+                                    @php
+
+                                        $leaveStatusData = $leaveStatus->where('leave_id', $data->id)->first();
+
+                                        @endphp
+
+                                        @if($data->leave_status == 'approved')
+
+                                        <span class="badge rounded-pill approved">Approved</span>
+
+                                        @elseif($data->leave_status == 'declined')
+
+                                        <span class="badge rounded-pill denied">Declined</span>
+
+                                        @else
+
+                                        <span class="badge rounded-pill requested">Requested</span>
+
+                                        @endif
+
+                                        @if (!empty($leaveStatusData))
+
+                                        <p class="small mt-1" style="font-size: 11px;font-weight:600; margin-left:6px;"> By:
+
+                                            {{ $leaveStatusData->first_name ?? '' }}
+
+                                        </p>
+
+                                    @endif
                                 </td>
                             </tr>
                             @empty
@@ -124,7 +187,7 @@
 @section('js_scripts')
     <script>
         $(document).ready(function() {
-            $('#users_table').DataTable({
+            $('#leavesss').DataTable({
             });
         });
     </script>

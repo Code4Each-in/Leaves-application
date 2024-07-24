@@ -38,24 +38,28 @@ class HolidaysController extends Controller
 
         $allHolidaysFilter = $holidaysFilter['all_holidays'] ?? '';
 
-        if ($allHolidaysFilter == 'on' ) {
+        // if ($allHolidaysFilter == 'on' ) {
 
-            $holidays = Holidays::get();   
+        //     $holidays = Holidays::get();   
 
-        } else {
+        // } else {
 
-           // Get the current date
+        //    // Get the current date
 
         $currentDate = Carbon::now()->toDateString();
 
+        $userCalendarId = auth()->user()->calander_id;
+
+        // Fetch holidays for the user's calendar
+        $holidays = Holidays::where('calender_id', $userCalendarId)->get();
 
 
         // Fetch holidays greater than or equal to the current date
 
-        $holidays = Holidays::where('to', '>=', $currentDate)->get();
+        // $holidays = Holidays::where('to', '>=', $currentDate)->get();
 
-        }
-
+        // }
+        // $showing_holidays_withId = Holidays::where('calender_id', $userCalendarId)->get();
         return view('holidays.index', compact('holidays','allHolidaysFilter'));
 
     }
