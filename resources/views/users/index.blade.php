@@ -16,6 +16,8 @@
 
             <button class="btn btn-primary mt-3" onClick="openusersModal()" href="javascript:void(0)">Add User</button>
 
+
+
             <form id="filter-data" method="GET" action="{{ route('users.index') }}">
 
                 <div class="row mt-3 mx-auto">
@@ -80,13 +82,13 @@
 
                                 <th>Documents</th>
 
-                                <th>Leaves</th>
+                                <!-- <th>Leaves</th> -->
 
                                 @endif
 
                                 <!-- <th>Tshirt Size</th> -->
 
-                                <th>Total Holidays</th>
+                                <!-- <th>Total Holidays</th> -->
                                 <th>Leave Report</th>
                                 <th>Active</th>
 
@@ -172,7 +174,7 @@
 
                                 </td>
 
-                                <td>
+                                <!-- <td>
 
                                     @php
 
@@ -234,14 +236,14 @@
 
                                 </td>
 
-                                @endif
+                                @endif -->
 
                                 <!-- <td>{{ $data->tshirt_size ?? '---' }}</td> -->
                                 <!-- <td>{{ $data->tshirt_size ?? '---' }}</td> -->
-                                <td>{{ $data->total_holidays ?? '' }}</td>
+                                <!-- <td>{{ $data->total_leaves ?? '' }}</td> -->
                                 
                                 <td>
-                                <a href="{{ url('leaves/report/'.$data->id) }}" class="fa fa-eye" style="color:#4154f1;" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="View Holidays" data-bs-original-title="View Holidays"></a>
+                                <a href="{{ url('leaves/report/'.$data->id) }}" class="fa fa-eye" style="color:#4154f1;" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="View Leave Report" data-bs-original-title="View Leave Report"></a>
                                 <td>
                                     <div class="form-group form-check active_user">
 
