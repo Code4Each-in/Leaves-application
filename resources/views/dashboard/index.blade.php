@@ -805,7 +805,7 @@ use App\Models\Votes;
 
     </div>
 
-    <div class="col-md-4 dashboard">
+    <!-- <div class="col-md-4 dashboard">
 
     @php
 
@@ -843,11 +843,11 @@ use App\Models\Votes;
 
                             <tbody>
 
-                                @foreach ($uservote as $user)
+                                @foreach ($uservote as $user) -->
 
                                 <!-- @if($user->status == 1 && $user->role_id != 1) -->
 
-                                <tr>
+                                <!-- <tr>
 
                                     <td>{{ $user->first_name }} {{ $user->last_name }}</td>
 
@@ -857,11 +857,11 @@ use App\Models\Votes;
 
                                     </td>
 
-                                </tr>
+                                </tr> -->
 
                                 <!-- @endif -->
 
-                                @endforeach
+                                <!-- @endforeach
 
                             </tbody>
 
@@ -887,7 +887,7 @@ use App\Models\Votes;
 
         </div>
 
-        @endif
+        @endif -->
 
         <!-- <div class="card upcoming-holidays"> -->
 

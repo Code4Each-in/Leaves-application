@@ -1,12 +1,24 @@
 @extends('layout')
-@section('title', 'Employee Leave Report - ' . (!empty($userLeaves[0]) ? $userLeaves[0]->first_name : ''))
+@section('title', 'Employee Leave Report - ' . $employeeName)
 @section('subtitle', 'Employee Leave Report')
 @section('content')
 
+<div class="form_fill">
+    <form id="year_filter_form" action="{{ route('leave.report', ['id' => $id]) }}" method="GET" class="form-inline">
+    <select class="form-select" id="year_filter" name="year">
+                @foreach($years as $year)
+                    <option value="{{ $year }}" {{ $year == $CurrentYear ? 'selected' : '' }}>{{ $year }}</option>
+                @endforeach
+            </select>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary ml-2">Apply Filter</button>    
+        </div>
+    </form>
+</div>
 
 <div class="row">
-    <div class="col-md-12 dashboard">
-        <div class="card recent-sales overflow-auto">
+    <div class="col-md-12">
+        <div class="card recent-sales ">
             <div class="card-body">
                 <h5 class="card-title">Leave Type Record</h5>
                     <table class="table table-borderless" id="leave_data">
@@ -16,6 +28,7 @@
                                 <th scope="col">Total Leaves</th>
                                 <th scope="col">Leaves Occupied</th>
                                 <th scope="col">Pending Leaves</th>
+                                <th scope="col">Carry Forward</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,6 +38,7 @@
                             <td>{{ $item['leave_count'] }}</td>
                             <td>{{ $item['leave_day_count'] }}</td>
                             <td>{{ $item['pending_leaves'] }}</td>
+                            <td>-----</td>
                         </tr>
                         @endforeach
                         </tbody>
@@ -188,7 +202,11 @@
     <script>
         $(document).ready(function() {
             $('#leavesss').DataTable({
+                "language": {
+                "emptyTable": "No records for this year"
+            }
             });
         });
+        
     </script>
     @endsection

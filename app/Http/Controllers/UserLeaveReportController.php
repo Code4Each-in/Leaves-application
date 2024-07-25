@@ -10,10 +10,10 @@ use App\Models\LeaveType;
 
 class UserLeaveReportController extends Controller
 {
-    public function leaveReport($id)
+    public function leaveReport(Request $request, $id)
     {
         // Retrieve the leave data for a specific user_id and the current year
-        $currentYear = date('Y'); 
+        $currentYear = $request->input('year', date('Y')); 
         $totalLeaveData = UserLeaveReport::where('user_id', $id)
             ->where('year', '=', $currentYear)
             ->first();
@@ -27,33 +27,40 @@ class UserLeaveReportController extends Controller
             ->whereYear('from', date('Y'))
             ->where('user_id', $id)
             ->get();
-        //gets the count of approvedleaves
+
+        // Count the number of approved leaves
         $totalLeaveSpentCount = $totalLeaveSpent->count(); 
         
-
-        //get pending leaves count 
+        // Calculate pending leaves count
         $pendingLeavesCount = $totalLeaves - $totalLeaveSpentCount;
 
 
-        //
-        $userLeaves = UserLeaves::join('users', 'user_leaves.user_id', '=', 'users.id')->where('user_leaves.user_id', $id)->orderBy('id', 'desc')->get(['user_leaves.*', 'users.first_name']);
-        
-            $currentDate = date('Y-m-d'); //current date
-           
-            $showLeaves = UserLeaves::join('users', 'user_leaves.user_id', '=', 'users.id')->whereDate('from', '<=', $currentDate)->whereDate('to', '>=', $currentDate)->where('leave_status', '=', 'approved')->get();
+        $userLeaves = UserLeaves::join('users', 'user_leaves.user_id', '=', 'users.id')
+                                ->where('user_leaves.user_id', $id)
+                                ->whereYear('user_leaves.created_at', $currentYear)
+                                ->orderBy('id', 'desc')
+                                ->get(['user_leaves.*', 'users.first_name']);
+
+            $employeeName = Users::findOrFail($id)->first_name;
+
+            $currentDate = date('Y-m-d');
+            $showLeaves = UserLeaves::join('users', 'user_leaves.user_id', '=', 'users.id')
+                                    ->whereDate('from', '<=', $currentDate)
+                                    ->whereDate('to', '>=', $currentDate)
+                                    ->where('leave_status', '=', 'approved')
+                                    ->get();
             // dd($showLeaves);
             if (!empty($showLeaves)) {
 
                 $leaveStatus = UserLeaves::join('users', 'user_leaves.status_change_by', '=', 'users.id')
                     ->where('user_leaves.user_id', $id)
                     ->where('user_leaves.leave_status', 'approved') 
+                    ->whereYear('user_leaves.created_at', $currentYear)
                     ->select('user_leaves.leave_status', 'user_leaves.id as leave_id', 'user_leaves.updated_at', 'users.first_name', 'users.last_name',)
                     ->get();
     
             }
-            // dd($leaveStatus);
 
-            $currentYear = now()->year;
             // Fetch all leave types
             $leaveTypes = LeaveType::all();
             
@@ -96,15 +103,23 @@ class UserLeaveReportController extends Controller
                     'pending_leaves' => $pendingLeaves, // Ensure pending leaves is not negative
                 ];
             }        
+            
+            $years = range(date('Y') - 4, date('Y'));
+
             return view('leaves.leavereport', [
+                    'id' => $id,
                     'totalLeaveData' => $totalLeaves,
                     'totalLeaveSpentCount' => $totalLeaveSpentCount,
                     'pendingLeavesCount' => $pendingLeavesCount,
                     'userLeaves' => $userLeaves,
                     'segregatedArrays' => $segregatedArrays,
                     'leaveStatus' => $leaveStatus,
+                    'CurrentYear' => $currentYear, 
+                    'years' => $years,
+                    'employeeName' => $employeeName,
             ]);
     }
+
 
     public function add_user_holidays(Request $request)
 	{

@@ -10,6 +10,8 @@ class LeaveType extends Model
     use HasFactory;
     protected $fillable = [
         'leave_type',
-        'leave_count'
+        'leave_count',
+        'year',
+        'carry_forward'
     ];
 }

@@ -2000,3 +2000,24 @@ button.btn.btn-primary.btn-sm {
 .hold {
   background-color: #ff9c59; 
 }
+
+.form_fill {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+  column-gap: 10px;
+}
+
+form#year_filter_form {
+  width: 30%;
+}
+
+.form-group {
+  display: flex;
+  justify-content: end;
+  margin-top: 8px;
+}
+
+button.btn.btn-primary.ml-2 {
+  font-size: 15px;
+}

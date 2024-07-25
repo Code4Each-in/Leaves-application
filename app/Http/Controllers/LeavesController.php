@@ -710,14 +710,16 @@ class LeavesController extends Controller
         $validated = $request->validate([
 
             'leave_type' => 'required',
-            'total_holidays' => 'required'
+            'total_holidays' => 'required',
+            'year' => 'required'
 
         ]);
 
         $data = array(
 
             "leave_type" => $request->leave_type,
-            "leave_count" => $request->total_holidays
+            "leave_count" => $request->total_holidays,
+            "year" => $request->year 
 
         );
 

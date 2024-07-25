@@ -32,6 +32,7 @@
                 @endif
             </div>
         </div>
+        <input type="hidden" name="year" value="{{ date('Y') }}">
     </div>
 
 
